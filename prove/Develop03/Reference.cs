@@ -10,7 +10,6 @@ public class ScriptureReference
 
     public ScriptureReference(string reference)
     {
-        // Example parsing logic for reference like "John 3:16"
         string[] parts = reference.Split(':');
         Book = parts[0];
         
@@ -24,10 +23,10 @@ public class ScriptureReference
         else
         {
             Chapter = int.Parse(versePart);
-            EndVerse = Chapter; // Handle single verse scenario
+            EndVerse = Chapter;
         }
         
-        StartVerse = 1; // Assuming the first verse is 1 in the verse range
+        StartVerse = 1;
     }
 
     public override string ToString()

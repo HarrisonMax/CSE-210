@@ -47,7 +47,7 @@ public class Scripture
             return true;
         }
 
-        return false; // No more words to hide
+        return false;
     }
 
     public bool AllWordsHidden()
