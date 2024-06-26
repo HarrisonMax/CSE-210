@@ -3,41 +3,46 @@ using System.Reflection;
 
 public class ScriptureReference
 {
-    public string Book { get; private set; }
-    public int Chapter { get; private set; }
-    public int StartVerse { get; private set; }
-    public int EndVerse { get; private set; }
+    private string _bookName;
+    private int _chapter;
+    private int _verseStart;
+    private int _verseEnd;
 
-    public ScriptureReference(string reference)
+    public ScriptureReference(string bookName, int chapter, int verse)
     {
-        string[] parts = reference.Split(':');
-        Book = parts[0];
-        
-        string versePart = parts[1];
-        if (versePart.Contains("-"))
-        {
-            string[] verseRange = versePart.Split('-');
-            Chapter = int.Parse(verseRange[0]);
-            EndVerse = int.Parse(verseRange[1]);
-        }
-        else
-        {
-            Chapter = int.Parse(versePart);
-            EndVerse = Chapter;
-        }
-        
-        StartVerse = 1;
+        _bookName = bookName;
+        _chapter = chapter;
+        _verseStart = verse;
+        _verseEnd = verse;
     }
 
-    public override string ToString()
+    public ScriptureReference(string bookName, int chapter, int startVerse, int endVerse)
     {
-        if (StartVerse == EndVerse)
+        _bookName = bookName;
+        _chapter = chapter;
+        _verseStart = startVerse;
+        _verseEnd = endVerse;
+    }
+
+    private string GetScriptureReferenceString()
+    {
+        if (_verseStart == _verseEnd)
         {
-            return $"{Book} {Chapter}:{StartVerse}";
+            return $"{_bookName} {_chapter}:{_verseStart}";
         }
         else
         {
-            return $"{Book} {Chapter}:{StartVerse}-{EndVerse}";
+            return $"{_bookName} {_chapter}:{_verseStart}-{_verseEnd}";
         }
+    }
+
+    public void ShowScriptureReference()
+    {
+        Console.WriteLine(GetScriptureReferenceString());
+    }
+
+    public string GetReferenceString()
+    {
+        return GetScriptureReferenceString();
     }
 }

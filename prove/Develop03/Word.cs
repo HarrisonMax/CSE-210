@@ -3,17 +3,32 @@ using System;
 
 public class Word
 {
-    public string Text { get; private set; }
-    public bool IsHidden { get; set; }
+    private string _word;
+    private bool _hidden;
 
-    public Word(string text)
+    public Word(string word)
     {
-        Text = text;
-        IsHidden = false;
+        _word = word;
+        _hidden = false;
     }
 
-    public string Display()
+    public bool IsHidden()
     {
-        return IsHidden ? "_____" : Text;
+        return _hidden;
+    }
+
+    public void SetIsHidden(bool hidden)
+    {
+        _hidden = hidden;
+    }
+
+    public string GetWord()
+    {
+        return _word;
+    }
+
+    public int GetWordLength()
+    {
+        return _word.Length;
     }
 }
