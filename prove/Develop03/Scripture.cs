@@ -41,13 +41,12 @@ public class Scripture
     private bool HideSomeWords()
     {
         Random random = new Random();
-        int wordsToHide = random.Next(1, 3); // Hide between 1 to 2 words randomly
-
+        int wordsToHide = random.Next(3, 4);
+        //got this line off the interenet but it tells me that the w => !w.IsHidden() is what checks if the word is already hidden
         List<Word> wordsToHideList = _words.Where(w => !w.IsHidden()).ToList();
 
         if (wordsToHideList.Count == 0)
         {
-            // No more words left to hide
             return false;
         }
 
