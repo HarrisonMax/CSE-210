@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 
 class Program
@@ -7,7 +8,7 @@ class Program
     static void Main(string[] args)
     {
         Console. WriteLine("Bonjour Tout Le Monde");
-        Employee employee = new Employee("Bob", 40, 23.77);
+        // Employee employee = new Employee("Bob", 40, 23.77);
     //    Console.WriteLine($"{employee.GetName()} Is due: {employee.GetPay()}");
 
         ConstructionWorker constructionWorker = new ConstructionWorker("Betty", 40, 35.88);
@@ -17,13 +18,14 @@ class Program
         // Console.WriteLine($"{doctor.GetName()} is due {doctor.GetPay()}");
 
         List<Employee> employees = new List<Employee>();
-        employees.Add(employee);
+        // employees.Add(employee);
         employees.Add(constructionWorker);
         employees.Add(doctor);
 
         foreach (Employee e in employees)
         {
             Console.WriteLine($"{e.GetName()} is due {e.GetPay()} Insurance Cost: {e.InsuranceCost()}");
+            Console.WriteLine(e.ToString());
         }
     }
 }
