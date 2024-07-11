@@ -24,7 +24,7 @@ public class Goal
 
     public virtual void RecordAnEvent()
     {
-        // Implementation in derived classes
+   
     }
 }
 

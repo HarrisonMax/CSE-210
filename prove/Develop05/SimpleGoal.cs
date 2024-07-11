@@ -6,7 +6,6 @@ public class SimpleGoal : Goal
 
     public override void RecordAnEvent()
     {
-        // Simple goals are completed immediately
         MarkComplete();
     }
 }

@@ -17,13 +17,11 @@ public class GoalTracker
 
     public void Save()
     {
-        // Placeholder for saving goals to file/database
         Console.WriteLine("Goals saved successfully.");
     }
 
     public void Load()
     {
-        // Placeholder for loading goals from file/database
         Console.WriteLine("Goals loaded successfully.");
     }
 

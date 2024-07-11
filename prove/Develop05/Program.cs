@@ -57,13 +57,13 @@ public class Program
     {
         switch (goalTypeChoice)
         {
-            case 1: // Simple Goal
+            case 1: 
                 return new SimpleGoal(goalDescription, points);
 
-            case 2: // Eternal Goal
+            case 2: 
                 return new EternalGoal(goalDescription, points);
 
-            case 3: // Tracked Goal (Checklist Goal)
+            case 3: 
                 Console.WriteLine("Enter maximum repetitions:");
                 int maxRepetitions = int.Parse(Console.ReadLine());
                 Console.WriteLine("Enter bonus points:");
