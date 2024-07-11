@@ -13,7 +13,7 @@ public class ChecklistGoal : Goal
 
     public override void DisplayGoal()
     {
-        string status = _completed ? $"Completed {_completedRepetitions}/{_maxRepetitions} times" : "[ ]";
+        string status = _completed ? $"Completed {_completedRepetitions}/{_maxRepetitions} times" : "[ ] {_completeRepeitions}/{_maxRepetitions}";
         Console.WriteLine($"{status} {_goal} - {_points} points");
     }
 
