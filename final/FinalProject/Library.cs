@@ -5,13 +5,13 @@ public class Library
 {
     public List<Book> Books { get; set; }
     public List<Patron> Patrons { get; set; }
-    public List<Loan> Loans { get; set; }
+    public List<Author> Authors { get; set; }
 
     public Library()
     {
         Books = new List<Book>();
         Patrons = new List<Patron>();
-        Loans = new List<Loan>();
+        Authors = new List<Author>();
     }
 
     public void AddBook(Book book)
@@ -19,36 +19,40 @@ public class Library
         Books.Add(book);
     }
 
-    public void RemoveBook(Book book)
-    {
-        Books.Remove(book);
-    }
-
     public void AddPatron(Patron patron)
     {
         Patrons.Add(patron);
     }
 
-    public void RemovePatron(Patron patron)
+    public void AddAuthor(Author author)
     {
-        Patrons.Remove(patron);
+        Authors.Add(author);
     }
 
-    public void IssueLoan(Book book, Patron patron, DateTime loanDate, DateTime dueDate)
+    public Book FindBookByTitle(string title)
     {
-        var loan = new Loan
+        return Books.Find(b => b.Title.Equals(title, StringComparison.OrdinalIgnoreCase));
+    }
+
+    public Patron FindPatronByName(string name)
+    {
+        return Patrons.Find(p => p.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+    }
+
+    public Author FindAuthorByName(string name)
+    {
+        return Authors.Find(a => a.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+    }
+
+    public void ListCheckedOutBooks(Patron patron)
+    {
+        Console.WriteLine($"{patron.Name}'s checked out books:");
+        foreach (var book in Books)
         {
-            Book = book,
-            Patron = patron,
-            LoanDate = loanDate,
-            DueDate = dueDate
-        };
-        Loans.Add(loan);
-        book.Borrow();
-    }
-
-    public void ManageReturns()
-    {
-  
+            if (book.Borrower == patron)
+            {
+                Console.WriteLine($"- {book.Title}");
+            }
+        }
     }
 }

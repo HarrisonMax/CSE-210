@@ -21,15 +21,36 @@ public class Book
     public string Author { get; set; }
     public Genre Genre { get; set; }
     public bool Availability { get; set; }
+    public Patron Borrower { get; set; }
 
-    public void Borrow()
+    public Book(string isbn, string title, string author, Genre genre, bool availability)
     {
-        Availability = false;
+        ISBN = isbn;
+        Title = title;
+        Author = author;
+        Genre = genre;
+        Availability = availability;
+    }
+
+    public void Borrow(Patron patron)
+   {
+        if (Availability)
+        {
+            Borrower = patron;
+            Availability = false;
+            Console.WriteLine($"{patron.Name} has borrowed {Title}");
+        }
+        else
+        {
+            Console.WriteLine($"Sorry, {Title} is not available for borrowing.");
+        }
     }
 
     public void Return()
     {
+        Borrower = null;
         Availability = true;
+        Console.WriteLine($"{Title} has been returned.");
     }
 
     public void UpdateDetails(string newTitle, string newAuthor, Genre newGenre)

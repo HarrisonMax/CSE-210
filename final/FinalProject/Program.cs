@@ -1,118 +1,52 @@
 using System;
-using System.Collections.Generic;
 
 public class Program
 {
-    public static void Main(string[] args)
-    {
-        Library library = InitializeLibrary();
-
-        Console.WriteLine("Welcome to the Library Management System");
-
-        bool exit = false;
-        while (!exit)
-        {
-            DisplayMainMenu();
-
-            string choice = Console.ReadLine();
-            Console.WriteLine();
-
-            switch (choice)
-            {
-                case "1":
-                    LookupBooks(library);
-                    break;
-                case "2":
-                    LookupAuthors(library);
-                    break;
-                case "3":
-                    LookupPatrons(library);
-                    break;
-                case "4":
-                    LookupPatronContactInfo(library);
-                    break;
-                case "5":
-                    exit = true;
-                    Console.WriteLine("Exiting the program...");
-                    break;
-                default:
-                    Console.WriteLine("Invalid choice. Please enter a number from 1 to 5.");
-                    break;
-            }
-
-            Console.WriteLine();
-        }
-    }
-
-    private static Library InitializeLibrary()
+    public static void Main()
     {
         Library library = new Library();
 
-        Book book1 = new Book { ISBN = "1234567890", Title = "Sample Book 1", Author = "Sample Author 1", Genre = Genre.Fiction, Availability = true };
-        Book book2 = new Book { ISBN = "0987654321", Title = "Sample Book 2", Author = "Sample Author 2", Genre = Genre.NonFiction, Availability = true };
+        Author author1 = new Author("J.K. Rowling", "British author best known for the Harry Potter series.");
+        Author author2 = new Author("George Orwell", "English novelist and essayist, known for Animal Farm and 1984.");
+
+        Book book1 = new Book("978-0439554930", "Harry Potter and the Philosopher's Stone", "J.K. Rowling", Genre.Fantasy, true);
+        Book book2 = new Book("978-0439358071", "Harry Potter and the Chamber of Secrets", "J.K. Rowling", Genre.Fantasy, true);
+        Book book3 = new Book("978-0547249640", "Harry Potter and the Deathly Hallows", "J.K. Rowling", Genre.Fantasy, true);
+        Book book4 = new Book("978-0451524935", "1984", "George Orwell", Genre.SciFi, true);
+        Book book5 = new Book("978-0151072558", "Animal Farm", "George Orwell", Genre.Fiction, true);
+
+        author1.BooksWritten.Add(book1);
+        author1.BooksWritten.Add(book2);
+        author1.BooksWritten.Add(book3);
+        author2.BooksWritten.Add(book4);
+        author2.BooksWritten.Add(book5);
+
+        library.AddAuthor(author1);
+        library.AddAuthor(author2);
+
         library.AddBook(book1);
         library.AddBook(book2);
+        library.AddBook(book3);
+        library.AddBook(book4);
+        library.AddBook(book5);
 
-        Patron patron1 = new Patron { Name = "John Doe", Address = "123 Main St", ContactInformation = "555-1234", MembershipStatus = true };
-        Patron patron2 = new Patron { Name = "Jane Smith", Address = "456 Oak Ave", ContactInformation = "555-5678", MembershipStatus = true };
+        // Add patrons
+        Patron patron1 = new Patron("John Doe", "john.doe@example.com");
+        Patron patron2 = new Patron("Jane Smith", "jane.smith@example.com");
+
+        // Add patrons to library
         library.AddPatron(patron1);
         library.AddPatron(patron2);
 
-        return library;
-    }
-
-    private static void DisplayMainMenu()
-    {
-        Console.WriteLine("Main Menu:");
-        Console.WriteLine("1. Lookup Books");
-        Console.WriteLine("2. Lookup Authors");
-        Console.WriteLine("3. Lookup Patrons");
-        Console.WriteLine("4. Lookup Patron Contact Information");
-        Console.WriteLine("5. Exit");
-        Console.Write("Enter your choice: ");
-    }
-
-    private static void LookupBooks(Library library)
-    {
-        Console.WriteLine("List of Books in the Library:");
-        foreach (var book in library.Books)
+        Book foundBook = library.FindBookByTitle("Harry Potter and the Philosopher's Stone");
+        if (foundBook != null)
         {
-            Console.WriteLine($"{book.Title} by {book.Author}");
+            foundBook.Borrow(patron1);
         }
-    }
-
-    private static void LookupAuthors(Library library)
-    {
-        Console.WriteLine("List of Authors:");
-        HashSet<string> authors = new HashSet<string>();
-        foreach (var book in library.Books)
+        Patron foundPatron = library.FindPatronByName("John Doe");
+        if (foundPatron != null)
         {
-            authors.Add(book.Author);
-        }
-        foreach (var author in authors)
-        {
-            Console.WriteLine(author);
-        }
-    }
-
-    private static void LookupPatrons(Library library)
-    {
-        Console.WriteLine("List of Patrons:");
-        foreach (var patron in library.Patrons)
-        {
-            Console.WriteLine($"{patron.Name}");
-        }
-    }
-
-    private static void LookupPatronContactInfo(Library library)
-    {
-        Console.WriteLine("Patron Contact Information:");
-        foreach (var patron in library.Patrons)
-        {
-            Console.WriteLine($"Name: {patron.Name}");
-            Console.WriteLine($"Address: {patron.Address}");
-            Console.WriteLine($"Contact Information: {patron.ContactInformation}");
-            Console.WriteLine();
+            library.ListCheckedOutBooks(foundPatron);
         }
     }
 }
