@@ -2,30 +2,16 @@ using System;
 
 public class Program
 {
-    private static Library library = new Library(); // Create a library instance
+    private static Library library = new Library();
 
-    public static void Main()
+    public static void Main(string[] args)
     {
-        InitializeLibrary(); // Initialize library with sample data
+        InitializeLibrary();
 
         bool exit = false;
         while (!exit)
         {
-            Console.WriteLine("Welcome to the Library Management System");
-            Console.WriteLine("========================================");
-            Console.WriteLine("1. Find Author");
-            Console.WriteLine("2. Add Author");
-            Console.WriteLine("3. Find Book");
-            Console.WriteLine("4. Add Book");
-            Console.WriteLine("5. Find Patron");
-            Console.WriteLine("6. Add Patron");
-            Console.WriteLine("7. Check Out Book");
-            Console.WriteLine("8. Return Book");
-            Console.WriteLine("9. List Checked Out Books for Patron");
-            Console.WriteLine("10. Exit");
-            Console.WriteLine();
-            Console.Write("Enter your choice: ");
-
+            DisplayMenu();
             string choice = Console.ReadLine();
             Console.WriteLine();
 
@@ -71,30 +57,21 @@ public class Program
         }
     }
 
-    // Method to initialize library with sample data
-    private static void InitializeLibrary()
+    private static void DisplayMenu()
     {
-        // Sample authors
-        Author author1 = new Author("J.K. Rowling", "British author best known for the Harry Potter series.");
-        Author author2 = new Author("George Orwell", "English novelist and essayist, known for Animal Farm and 1984.");
-
-        // Sample books
-        Book book1 = new Book("978-0439554930", "Harry Potter and the Philosopher's Stone", "J.K. Rowling", Genre.Fantasy, true);
-        Book book2 = new Book("978-0439358071", "Harry Potter and the Chamber of Secrets", "J.K. Rowling", Genre.Fantasy, true);
-        Book book3 = new Book("978-0547249640", "Harry Potter and the Deathly Hallows", "J.K. Rowling", Genre.Fantasy, true);
-        Book book4 = new Book("978-0451524935", "1984", "George Orwell", Genre.SciFi, true);
-        Book book5 = new Book("978-0151072558", "Animal Farm", "George Orwell", Genre.Fiction, true);
-
-        // Add authors to library
-        library.AddAuthor(author1);
-        library.AddAuthor(author2);
-
-        // Add books to library
-        library.AddBook(book1);
-        library.AddBook(book2);
-        library.AddBook(book3);
-        library.AddBook(book4);
-        library.AddBook(book5);
+        Console.WriteLine("Library Management System Menu");
+        Console.WriteLine("==============================");
+        Console.WriteLine("1. Find Author");
+        Console.WriteLine("2. Add Author");
+        Console.WriteLine("3. Find Book");
+        Console.WriteLine("4. Add Book");
+        Console.WriteLine("5. Find Patron");
+        Console.WriteLine("6. Add Patron");
+        Console.WriteLine("7. Check Out Book");
+        Console.WriteLine("8. Return Book");
+        Console.WriteLine("9. List Checked Out Books for Patron");
+        Console.WriteLine("10. Exit");
+        Console.Write("Enter your choice: ");
     }
 
     private static void FindAuthor()
@@ -144,8 +121,8 @@ public class Program
             Console.WriteLine($"Author: {foundBook.Author}");
             Console.WriteLine($"ISBN: {foundBook.ISBN}");
             Console.WriteLine($"Genre: {foundBook.Genre}");
-            Console.WriteLine($"Availability: {(foundBook.Availability ? "Available" : "Not Available")}");
-            if (!foundBook.Availability)
+            Console.WriteLine($"Availability: {(foundBook.IsAvailable ? "Available" : "Not Available")}");
+            if (!foundBook.IsAvailable)
             {
                 Console.WriteLine($"Borrower: {foundBook.Borrower.Name}");
             }
@@ -177,7 +154,14 @@ public class Program
             return;
         }
 
-        Book newBook = new Book(isbn, title, author, genre, availability);
+        Book newBook = new Book
+        {
+            ISBN = isbn,
+            Title = title,
+            Author = author,
+            Genre = genre,
+            IsAvailable = availability
+        };
         library.AddBook(newBook);
 
         Console.WriteLine("Book added successfully.");
@@ -207,7 +191,11 @@ public class Program
         Console.Write("Enter patron's contact information: ");
         string contactInfo = Console.ReadLine();
 
-        Patron newPatron = new Patron(patronName, contactInfo);
+        Patron newPatron = new Patron
+        {
+            Name = patronName,
+            ContactInfo = contactInfo
+        };
         library.AddPatron(newPatron);
 
         Console.WriteLine("Patron added successfully.");
@@ -234,7 +222,8 @@ public class Program
             return;
         }
 
-        book.Borrow(patron);
+        library.BorrowItem(book, patron);
+        Console.WriteLine($"{book.Title} checked out to {patron.Name} successfully.");
     }
 
     private static void ReturnBook()
@@ -249,7 +238,15 @@ public class Program
             return;
         }
 
-        book.Return();
+        Patron patron = book.Borrower;
+        if (patron == null)
+        {
+            Console.WriteLine($"{book.Title} is not currently checked out.");
+            return;
+        }
+
+        library.ReturnItem(book, patron);
+        Console.WriteLine($"{book.Title} returned by {patron.Name} successfully.");
     }
 
     private static void ListCheckedOutBooks()
@@ -265,5 +262,20 @@ public class Program
         }
 
         library.ListCheckedOutBooks(patron);
+    }
+
+    private static void InitializeLibrary()
+    {
+        Author author1 = new Author("John Doe", "A mysterious author");
+        Book book1 = new Book
+        {
+            ISBN = "1234567890",
+            Title = "Sample Book",
+            Author = author1.Name,
+            Genre = Genre.Fiction,
+            IsAvailable = true
+        };
+        author1.AddBook(book1);
+        library.AddAuthor(author1);
     }
 }

@@ -25,10 +25,13 @@ public class GenreClass
 
     public void ListBooks()
     {
-        Console.WriteLine($"Books in {Name} genre:");
         foreach (var book in Books)
         {
-            Console.WriteLine($"- {book.Title} by {book.Author}");
+            Console.WriteLine($"Title: {book.Title}");
+            Console.WriteLine($"Author: {book.Author}");
+            Console.WriteLine($"ISBN: {book.ISBN}");
+            Console.WriteLine($"Genre: {book.Genre}");
+            Console.WriteLine();
         }
     }
 }

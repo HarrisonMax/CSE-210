@@ -1,13 +1,15 @@
-using System;
-
 public class Patron
 {
     public string Name { get; set; }
     public string ContactInfo { get; set; }
 
-    public Patron(string name, string contactInfo)
+    public void Borrow()
     {
-        Name = name;
-        ContactInfo = contactInfo;
+        Console.WriteLine($"{Name} has borrowed an item.");
+    }
+
+    public void Return()
+    {
+        Console.WriteLine($"{Name} has returned an item.");
     }
 }

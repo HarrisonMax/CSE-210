@@ -1,5 +1,3 @@
-using System;
-
 public enum Genre
 {
     Fiction,
@@ -20,43 +18,20 @@ public class Book
     public string Title { get; set; }
     public string Author { get; set; }
     public Genre Genre { get; set; }
-    public bool Availability { get; set; }
+    public bool IsAvailable { get; set; }
     public Patron Borrower { get; set; }
 
-    public Book(string isbn, string title, string author, Genre genre, bool availability)
+    public void Borrow()
     {
-        ISBN = isbn;
-        Title = title;
-        Author = author;
-        Genre = genre;
-        Availability = availability;
-    }
-
-    public void Borrow(Patron patron)
-   {
-        if (Availability)
-        {
-            Borrower = patron;
-            Availability = false;
-            Console.WriteLine($"{patron.Name} has borrowed {Title}");
-        }
-        else
-        {
-            Console.WriteLine($"Sorry, {Title} is not available for borrowing.");
-        }
+        IsAvailable = false;
+        Console.WriteLine($"{Title} has been borrowed.");
     }
 
     public void Return()
     {
-        Borrower = null;
-        Availability = true;
+        IsAvailable = true;
         Console.WriteLine($"{Title} has been returned.");
     }
-
-    public void UpdateDetails(string newTitle, string newAuthor, Genre newGenre)
-    {
-        Title = newTitle;
-        Author = newAuthor;
-        Genre = newGenre;
-    }
 }
+
+
