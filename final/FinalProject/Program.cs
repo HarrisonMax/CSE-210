@@ -266,11 +266,11 @@ public class Program
 
     private static void InitializeLibrary()
     {
-        Author author1 = new Author("John Doe", "A mysterious author");
+        Author author1 = new Author("J.K. Rowling", "Author of the Harry Potter series");
         Book book1 = new Book
         {
             ISBN = "1234567890",
-            Title = "Sample Book",
+            Title = "Harry Potter and the Sorcerer's Stone",
             Author = author1.Name,
             Genre = Genre.Fiction,
             IsAvailable = true
